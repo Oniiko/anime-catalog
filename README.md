@@ -97,7 +97,7 @@ Schemas
 
 Wireframe
 	Homepage
-	![Homepage](/documentation/homepage.png)
+	![Homepage](/documentation/homepage.jpg)
 	Login/Signup and List
 	![Login/Signup and List](/documentation/login_signup_list.jpg)
 	All Manga/Anime List
