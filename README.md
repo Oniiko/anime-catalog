@@ -1,7 +1,6 @@
 Project Description
 	
-	A web app for documenting, rating, and reviewing anime/manga. Users can search for anime/manga in order to read the synopsis, # of episodes, see user reviews for the anime/manga, and see an average rating for the anime/manga. 
-	Also the user can save their ratings and reviews in the database, which will be displayed in a table that categorized into: watching, completed, ongoing, and dropped.
+	A web app for documenting, rating, and reviewing anime/manga. Users can search for anime/manga in order to read the synopsis, # of episodes, see user reviews for the anime/manga, and see an average rating for the anime/manga. Also the user can save their ratings and reviews in the database, which will be displayed in a table that categorized into: watching, completed, ongoing, and dropped.
 
 Schemas
 
@@ -10,7 +9,7 @@ Schemas
 		username: String,
 		password: String,
 		anime_user_ratings: [Anime_User_Rating],
-		manga_user_ratings: [Manga_User_rating],
+		manga_user_ratings: [Manga_User_Rating],
 		anime_reviews_count: Number, //Cache counter
 		manga_reviews_count: Number, //Cache counter
 		created_at: Date,
@@ -24,6 +23,8 @@ Schemas
 		anime_id: <ObjectId>
 		rating: Number
 		status: String
+		date_started: Date,
+		date_finished: Date,
 		episodes_seen: Number,
 		review: {
 			text: string,
@@ -44,6 +45,8 @@ Schemas
 		manga_id: <ObjectId>,
 		rating: Number,
 		status: String,
+		date_started: Date,
+		date_finsihed: Date,
 		chapters_read: Number,
 		review: {
 			text: string,
@@ -58,7 +61,7 @@ Schemas
 		Description: This is the user's personal rating of a manga that can include a review
 
 	var Anime = new Schema({
-		_id: <ObjectId1>,
+		_id: <ObjectId>,
 		title: String,
 		aliases: [String],
 		genre: [Genres],
@@ -93,10 +96,19 @@ Schemas
 		Description: This is the information about the manga.
 
 Wireframe
-
+	Homepage
+	![Homepage](/documentation/homepage.png)
+	Login/Signup and List
+	![Login/Signup and List](/documentation/login_signup_list.jpg)
+	All Manga/Anime List
+	![All Manga/Anime List](/documentation/all_manga_anime.jpg)
+	Individual Manga/Anime List
+	![Individual Manga/Anime List](/documentation/page_for_individual_anime_manga.jpg)
 
 
 Sitemap
+
+![Sitemap](/documentation/AIT_FinalProjectSitemap.png)
 
 
 List of user stories:
@@ -131,6 +143,11 @@ Modules/Things to Look Into
 		- This lets the list of anime to be maintained automatically, instead of a manual search being needed
 		- Possible modules: [node-schedule](https://www.npmjs.com/package/node-schedule)
 							[node-cron](https://github.com/ncb000gt/node-cron)
+
+	* Paginate the reviews and the all anime and manga lists
+		- This splits the total number of items loaded per page. So, I can set it to 5 reviews appearing per page or 10 and a page selector can be at the bottom of each page
+		- This prevents pages from becoming too long and makes it less problematic loading large numbers of reviews/anime
+		- Possible modules: [express-paginate](https://github.com/expressjs/express-paginate)
 
 
 	
