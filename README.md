@@ -6,7 +6,7 @@ Also the user can save their ratings and reviews in the database, which will be 
 Schemas
 
 	var User = new Schema({
-		_id: <ObjectId1>
+		id: ObjectId,
 		username: String,
 		password: String,
 		anime_user_ratings: [Anime_User_Rating],
@@ -19,11 +19,11 @@ Schemas
 		This document contains the user's personal information and stores their ratings and reviews
 
 	var Anime_User_Rating = new Schema({
-		_id: <ObjectId>
-		user_id: <ObjectId>
-		anime_id: <ObjectId>
-		rating: Number
-		status: String
+		id: ObjectId,
+		user_id: ObjectId,
+		anime_id: ObjectId,
+		rating: Number,
+		status: String,
 		date_started: Date,
 		date_finished: Date,
 		episodes_seen: Number,
@@ -32,7 +32,7 @@ Schemas
 			created_at: Date,
 			updated_at: Date
 		}
-		tags: [String]
+		tags: [String],
 		created_at: Date,
 		updated_at: Date
 	});
@@ -41,13 +41,13 @@ Schemas
 
 		
 	var Manga_User_Rating = Schema({
-		_id: <ObjectId>,
-		user_id: <ObjectId>,
-		manga_id: <ObjectId>,
+		id: ObjectId,
+		user_id: ObjectId,
+		manga_id: ObjectId,
 		rating: Number,
 		status: String,
 		date_started: Date,
-		date_finsihed: Date,
+		date_finished: Date,
 		chapters_read: Number,
 		review: {
 			text: string,
@@ -62,11 +62,11 @@ Schemas
 		Description: This is the user's personal rating of a manga that can include a review
 
 	var Anime = new Schema({
-		_id: <ObjectId>,
+		id: ObjectId,
 		title: String,
 		aliases: [String],
 		genre: [Genres],
-		year,
+		year: Number,
 		tags: [String],
 		status: String,
 		episodes: Number,
@@ -81,7 +81,7 @@ Schemas
 		Description: This is the information about the anime.
 
 	var Manga = new Schema({
-		_id: <ObjectId1>,
+		id: ObjectId,
 		title: String,
 		aliases: [String],
 		genre: [String],
@@ -97,6 +97,8 @@ Schemas
 		Description: This is the information about the manga.
 
 Wireframes
+	
+I originally drew this using balsamiq, but I didnt realize that it doesn't save past 1 hour on the web app trial, so I lost my work. I redrew it in my notebook, but when I tried scanning, it was un-readable. I can redraw these if the pictures are not good enough. 
 
 Homepage
 ![Homepage](/documentation/homepage.jpg)

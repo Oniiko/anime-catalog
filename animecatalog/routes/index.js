@@ -6,4 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/anime', function(req, res, next) {
+
+});
+
+router.get('/manga', function(req, res, next) {
+
+});
+
 module.exports = router;
