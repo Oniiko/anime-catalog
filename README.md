@@ -1,6 +1,6 @@
 Project Description
 	
-	A web app for documenting, rating, and reviewing anime/manga.  return Users can search for anime/manga in order to read the synopsis, # of episodes, see user reviews for the anime/manga, and see an average rating for the anime/manga.  return Also the user can save their ratings and reviews in the database, which will be displayed in a table that categorized into: watching, completed, ongoing, and dropped.
+	A web app for documenting, rating, and reviewing anime/manga.  <br> Users can search for anime/manga in order to read the synopsis, # of episodes, see user reviews for the anime/manga, and see an average rating for the anime/manga.  <br> Also the user can save their ratings and reviews in the database, which will be displayed in a table that categorized into: watching, completed, ongoing, and dropped.
 
 Schemas
 
