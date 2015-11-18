@@ -123,30 +123,38 @@ List of user stories:
 
 Modules/Things to Look Into
 
-	* Image Uploading for user-uploaded anime/manga images
-		- Image uploading from web page to image folder (subdirectories for each anime?)
-		- Maybe, use ajax to upload image
-		- This allows users to upload relevant images to an anime/manga
-		- Possible modules: [multer](https://github.com/expressjs/multer)
+	(1 point) Model View Controller
+		- This is the categorization of functionality into three categories: view (output representation of information), model (manages the data of the application), and controller (accepts inputs and converts it to commands for the model or view).
+		- This lets the code to be modularized, so it's organized to read and program in.
+		- I have experience with Ruby on Rails, so I prefer this layout.
 
-	* Sorting database entries based on a value (ex. following criteria: Popular, New, Top)
-		- Calculate values based on db entries (efficiently) and sort by those values
-		- This lets me sort and order the lists in a meaningful way for users to see new, top, and popular entries.
-		- Possible modules: This should be easy enough to implement just useing mongodb queries
+	(2 points) Unit testing with Javascript
+		- The testing of individual units of code in the web app, checking for correctness.
+		- This makes it easier to find bugs when changing code or adding functionalities
+		- Possible modules: Jasmine or Mocha
 
-	* Use an api from a popular anime db website, such as MAL or Hummingbird to extract anime descriptions
+	(1 point) Use a CSS framework throughout your site, use a reasonable of customization of the framework
+		- CSS frameworks make setting up styling a lot easier.
+		- I can use preset styling to make grids and format overall page design. Also buttons and forms can be easily stylized using frameworks
+		- I will probably use Foundation for this.
+
+	(3 points) Integrate user authentication
+
+	(2 points) Perform client side form validation
+
+	(2 points) * Use an api from a popular anime db website, such as MAL or Hummingbird to extract anime descriptions
 		- This is an api to retrieve information anime, such as: a description, running days, aliases, etc...
 		- This makes it easier and more convenient to maintain an accurate list of anime with good descriptions. It's a lot better than hardcoding the details.
-		- I will probably need to convert xml to json
-		- Possible modules: [MAL unofficial API](https://github.com/chuyeow/node-myanimelist-api)
+		- If I use the MyAnimeList API, I will use http://myanimelist.net/modules.php?go=api
+		- If I use the Hummingbird API, I will use https://github.com/hummingbird-me/hummingbird/wiki/API-v1-Methods
 
-	* Set up a cron job to retrieve data from api on a timed basis
+	(1 point) * Set up a cron job to retrieve data from api on a timed basis
 		- A time based job (probably every day or so) that updates and adds anime/manga entries to the database
 		- This lets the list of anime to be maintained automatically, instead of a manual search being needed
 		- Possible modules: [node-schedule](https://www.npmjs.com/package/node-schedule)
 							[node-cron](https://github.com/ncb000gt/node-cron)
 
-	* Paginate the reviews and the all anime and manga lists
+	(1 point) * Paginate the reviews and the all anime and manga lists
 		- This splits the total number of items loaded per page. So, I can set it to 5 reviews appearing per page or 10 and a page selector can be at the bottom of each page
 		- This prevents pages from becoming too long and makes it less problematic loading large numbers of reviews/anime
 		- Possible modules: [express-paginate](https://github.com/expressjs/express-paginate)
