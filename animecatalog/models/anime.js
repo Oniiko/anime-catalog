@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    URLSlugs = require('mongoose-url-slugs'),
+    ObjectId = Schema.ObjectId;
 
 var Anime = new Schema({
     id: ObjectId,
@@ -19,4 +20,7 @@ var Anime = new Schema({
     updated_at: Date
 });
 
-module.exports = mongoose.model('Anime', Anime);
+var Anime = mongoose.model('Anime', Anime);
+module.exports = {
+    Anime: Anime
+}

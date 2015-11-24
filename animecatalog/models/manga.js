@@ -1,9 +1,10 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    URLSlugs = require('mongoose-url-slugs'),
+    ObjectId = Schema.ObjectId;
 
 var Manga = new Schema({
-    id: ObjectId1,
+    id: ObjectId,
     title: String,
     aliases: [String],
     genre: [String],

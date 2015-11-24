@@ -3,6 +3,8 @@ Project Description
 A web app for documenting, rating, and reviewing anime/manga. Users can search for anime/manga in order to read the synopsis, # of episodes, see user reviews for the anime/manga, and see an average rating for the anime/manga. 
 Also the user can save their ratings and reviews in the database, which will be displayed in a table that categorized into: watching, completed, ongoing, and dropped.
 
+The anime/manga entries 
+
 Schemas
 
 	var User = new Schema({
@@ -130,19 +132,20 @@ Modules/Things to Look Into
 		- This lets the code to be modularized, so it's organized to read and program in.
 		- I have experience with Ruby on Rails, so I prefer this layout.
 
-	(2 points) Unit testing with Javascript
-		- The testing of individual units of code in the web app, checking for correctness.
-		- This makes it easier to find bugs when changing code or adding functionalities
-		- Possible modules: Jasmine or Mocha
-
 	(1 point) Use a CSS framework throughout your site, use a reasonable of customization of the framework
 		- CSS frameworks make setting up styling a lot easier.
 		- I can use preset styling to make grids and format overall page design. Also buttons and forms can be easily stylized using frameworks
 		- I will probably use Foundation for this.
 
+
 	(3 points) Integrate user authentication
 
 	(2 points) Perform client side form validation
+
+	(2 points) Unit testing with Javascript
+		- The testing of individual units of code in the web app, checking for correctness.
+		- This makes it easier to find bugs when changing code or adding functionalities
+		- Possible modules: Jasmine or Mocha
 
 	(2 points) * Use an api from a popular anime db website, such as MAL or Hummingbird to extract anime descriptions
 		- This is an api to retrieve information anime, such as: a description, running days, aliases, etc...

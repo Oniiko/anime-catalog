@@ -14,4 +14,8 @@ router.get('/manga', function(req, res, next) {
 
 });
 
+router.get('/users', function(req, res, next) {
+
+});
+
 module.exports = router;
