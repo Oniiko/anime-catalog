@@ -3,6 +3,8 @@ var mongoose = require('mongoose'),
     URLSlugs = require('mongoose-url-slugs'),
     ObjectId = Schema.ObjectId;
 
+var Manga_User_Rating = require('./manga_user_rating').Manga_User_Rating;
+
 var Manga = new Schema({
     id: ObjectId,
     title: String,

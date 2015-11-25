@@ -12,11 +12,11 @@ var Anime_User_Rating = new Schema({
     date_finished: Date,
     episodes_seen: Number,
     review: {
-        text: string,
+        text: String,
         created_at: Date,
         updated_at: Date
-    }
-    tags: [String]
+    },
+    tags: [String],
     created_at: Date,
     updated_at: Date
 });
