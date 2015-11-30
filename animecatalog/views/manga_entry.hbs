@@ -1,0 +1,16 @@
+<h1> {{ manga.title }} </h1>
+<div> 
+	<img src="{{ manga.image_url}}" > <br>
+	Type: {{ manga.type }} <br> 
+	Aliases: {{ manga.aliases}} <br>
+	Genres: {{ manga.genres }} <br>
+	Finished airing: {{ manga.finished_airing }} <br>
+	Tags: {{ manga.tags }} <br>
+	Status: {{ manga.status }} <br>
+	Chapters: {{ manga.chapter_count }} <br>
+	Volumes: {{ manga.volume_count }} <br>
+</div>
+<div>
+	Rating: {{ manga.average_rating }}
+	Synopsis: {{ manga.synopsis }}
+</div>
