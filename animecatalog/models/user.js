@@ -1,16 +1,19 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	URLSlugs = require('mongoose-url-slugs'),
-	ObjectId = Schema.ObjectId;
+	ObjectId = Schema.ObjectId,
+    passportLocalMongoose = require('passport-local-mongoose');
 
 var Anime_User_Rating = require('./anime_user_rating').Anime_User_Rating;
 var Manga_User_Rating = require('./manga_user_rating').Manga_User_Rating;
 
 var User = new Schema();
-User.{(
+User.add({
     id: ObjectId,
-    username: String,
-    password: String,
+    local: {
+        username: String,
+        password: String,
+    },
     anime_user_ratings: [Anime_User_Rating],
     manga_user_ratings: [Manga_User_Rating],
     anime_reviews_count: Number, //Cache counter
@@ -18,6 +21,8 @@ User.{(
     created_at: Date,
     updated_at: Date
 });
+
+User.plugin(passportLocalMongoose);
 
 var User = mongoose.model('User', User);
 module.exports = {

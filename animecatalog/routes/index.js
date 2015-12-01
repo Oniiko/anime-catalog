@@ -10,7 +10,7 @@ mongoose.connect('mongodb://localhost/anidb');
 //api_wrapper.driver();
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  	res.render('homepage', { title: 'Anime DB' });
+  	res.render('homepage', { title: 'Anime DB', user: req.user });
 });
 
 router.get('/anime', function(req, res, next) {
