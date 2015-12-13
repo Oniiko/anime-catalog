@@ -1,0 +1,21 @@
+<br><br>
+<form method="get" >
+	Username: <input name="user" value="{{ username }}"> <br>
+	Number of Results: <input name="n" value="{{ n }}"> <br>
+	Similarity Algorithm: <input name="sim_func" value="{{sim_func}}"> <br>
+	<input type="submit">
+</form>
+<br><br>
+Top User Matches:
+<ol>
+	{{#each matches}}
+		<li> {{ this.username }} ({{ this.score }}) </a> </li>
+	{{/each}}
+</ol>
+<br>
+Recommended Anime List:
+<ol>
+	{{#each recomms}}
+		<li> {{ this.anime }} ({{ this.score }})  </a> </li>
+	{{/each}}
+</ol>

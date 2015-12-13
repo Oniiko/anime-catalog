@@ -1,11 +1,20 @@
-<h1>{{title}}</h1>
-<p>{{title}}</p>
-<ul>
+<div class="title">{{title}}</div>
+
+<div class="row small-up-1 medium-up-2 large-up-3">
 	{{#each list}}
-		<li> <a href="/{{../type}}/{{this.slug}}" > {{this.title}} </a> </li>
+  		<div class="column">
+  			<div class="callout entry-list-item">
+    			<div> 
+ 					<div class="inline font-12">
+		   				<img src="{{this.image_url}}" class="poster-thumbnail">
+						<a class="font-18" href="/{{../type}}/{{this.slug}}" > {{this.title}} </a> <br>
+						Hummingbird Rating: {{this.hummingbird_rating}} <br>
+						Average Rating: {{this.average_rating}}<br>
+						<div class="genres">{{this.genres}}</div>
+					</div>
+					<div class="font-12 short-synopsis">Synopsis: {{this.synopsis}} </div>
+				</div>
+			</div>
+  		</div>
 	{{/each}}
-</ul>
-
-
-
-
+</div>

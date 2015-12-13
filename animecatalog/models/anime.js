@@ -1,32 +1,36 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     URLSlugs = require('mongoose-url-slugs'),
-    ObjectId = Schema.ObjectId;
+    ObjectId = Schema.ObjectId,
+    mongoosePaginate = require('mongoose-paginate');
 
-var Anime_User_Rating = require('./anime_user_rating').Anime_User_Rating;
+//var Anime_Library_Entry = require('./anime_library_entry').Anime_Library_Entry;
 
 var Anime = new Schema();
 Anime.add({
     id: ObjectId,
-    title: String,
+    title: { type: String, required: true, unique: true},
+    hummingbird_id: Number,
+    hummingbird_rating: Number,
     image_url: String,
-    type: String,
+    type: { type: String, enum: ["TV", "Movie"], default: "Anime"},
     aliases: [String],
     genres: [String],
     started_airing: String,
     finished_airing: String,
-    tags: [String],
-    status: String,
+    status: { type: String},
     episodes: Number,
     episode_length: Number,
-    average_rating: Number,
-    user_ratings: [Anime_User_Rating],
+    average_rating: {type: Number, default: 0},
+    user_ratings: [{type: Schema.Types.ObjectId, ref: 'Anime_Library_Entry'}],
     synopsis: String,
     created_at: {type: Date},
     updated_at: {type: Date}
 });
 
 Anime.plugin(URLSlugs('title'));
+
+Anime.plugin(mongoosePaginate);
 
 Anime.pre('save', function(next){
     now = new Date();

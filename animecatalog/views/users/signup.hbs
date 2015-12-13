@@ -1,12 +1,50 @@
-<form action="/signup" method="post">
-    <div>
-        <label>Username</label>
-        <input type="text" name="username">
-    </div>
-    <div>
-        <label>Password</label>
-        	<input type="password" name="password">
-        </div>
+<form name="signup_form" action="/u/signup" method="post">
 
-    <button type="submit" >Signup</button>
+    <div class="row">
+      <div class="small-6 large-centered columns">
+        <h3 class="text-center">Signup form</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 large-centered columns">
+        <label> 
+            Username
+            <input type="text" name="username" placeholder="">
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 large-centered columns">
+        <label> 
+            Password
+            <input type="password" name="password" >
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 large-centered columns">
+        <label> 
+            Password Again
+            <input type="password" name="password2" >
+        </label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 large-centered columns">
+        <input type="submit" class="expanded button" value="Submit">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 large-centered columns" id="msg">
+        {{#if error }}
+        <div class="callout alert"> {{ error }} </div>
+        {{/if}}
+      </div>
+    </div>
+
 </form>

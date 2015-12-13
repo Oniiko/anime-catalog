@@ -22,79 +22,111 @@ Schemas
 
 	var Anime_User_Rating = new Schema({
 		id: ObjectId,
-		user_id: ObjectId,
-		anime_id: ObjectId,
-		rating: Number,
-		status: String,
-		date_started: Date,
-		date_finished: Date,
-		episodes_seen: Number,
-		review: {
-			text: string,
-			created_at: Date,
-			updated_at: Date
-		}
-		tags: [String],
-		created_at: Date,
-		updated_at: Date
-	});
+    	user_id: { type: ObjectId, ref: 'User'},
+    	anime_id: { type: Schema.Types.ObjectId, ref: 'Anime' },
+    	anime_info: { 
+        	_id: false,
+        	title: { type: String },
+        	image_url: String,
+        	type: { type: String, enum: ["Anime"], default: "Anime"},
+        	aliases: [String],
+        	genres: [String],
+        	started_airing: String,
+        	finished_airing: String,
+        	status: { type: String},
+        	episodes: Number,
+        	episode_length: Number,
+        	synopsis: String
+    	},
+    	rating: Number,
+    	status: String,
+    	date_started: Date,
+    	date_finished: Date,
+    	episodes_seen: Number,
+    	review: {
+        	text: String,
+    	},
+    	created_at: {type: Date},
+    	updated_at: {type: Date}
+		});
 
 		Description: This is the user's personal rating of an anime that can include a review
 
 		
 	var Manga_User_Rating = Schema({
 		id: ObjectId,
-		user_id: ObjectId,
-		manga_id: ObjectId,
-		rating: Number,
-		status: String,
-		date_started: Date,
-		date_finished: Date,
-		chapters_read: Number,
-		review: {
-			text: string,
-			created_at: Date,
-			updated_at: Date
-		}
-		tags: [String],
-		created_at: Date,
-		updated_at: Date
+    	user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+    	manga_id: { type: Schema.Types.ObjectId, ref: 'Manga' },
+    	manga_info: {
+        	_id: false,
+        	title: { type: String },
+        	image_url: { type: String },
+        	type: { type: String, enum: ['Manga', 'Oneshot'], default: 'Manga'},
+        	aliases: [String],
+        	genres: [String],
+        	year: Number,
+        	status: String,
+        	chapter_count: { type: Number, default: 0},
+        	volume_count: { type: Number, default: 0},
+        	synopsis: String
+    	},
+    	rating: Number,
+    	status: String,
+    	date_started: Date,
+    	date_finished: Date,
+    	chapters_read: Number,
+    	review: {
+        	text: String,
+        	created_at: Date,
+        	updated_at: Date
+    	},
+    	tags: [String],
+    	created_at: { type: Date },
+    	updated_at: { type: Date }
 	});
 
 		Description: This is the user's personal rating of a manga that can include a review
 
 	var Anime = new Schema({
-		id: ObjectId,
-		title: String,
-		aliases: [String],
-		genre: [Genres],
-		year: Number,
-		tags: [String],
-		status: String,
-		episodes: Number,
-		average_rating: Number,
-		user_ratings: [Anime_User_Rating],
-		reviews: [Anime_Review],
-		synopsis: String,
-		created_at: Date,
-		updated_at: Date
+		_id: ObjectId,
+    	hummingbird_id: Number,
+    	title: { type: String, required: true, unique: true},
+    	slug: String,
+    	image_url: String,
+    	type: { type: String, enum: ["TV", "Movie"], default: "Anime"},
+    	aliases: [String],
+    	genres: [String],
+    	started_airing: String,
+    	finished_airing: String,
+    	tags: [String],
+    	status: { type: String},
+    	episodes: Number,
+    	episode_length: Number,
+    	average_rating: {type: Number, default: null},
+    	user_ratings: [{type: Schema.Types.ObjectId, ref: 'Anime_Library_Entry'}],
+    	synopsis: String,
+    	created_at: {type: Date},
+    	updated_at: {type: Date}
 	});
 
 		Description: This is the information about the anime.
 
 	var Manga = new Schema({
-		id: ObjectId,
-		title: String,
-		aliases: [String],
-		genre: [String],
-		year: Number,
-		tags: [String],
-		status: String,
-		average_rating: Number,
-		user_ratings: [Manga_User_Rating],
-		synopsis: String,
-		created_at: Date,
-		updated_at: Date
+		_id: ObjectId,
+    	title: { type: String, required: true},
+    	image_url: { type: String },
+    	type: { type: String, enum: ['Manga', 'Oneshot'], default: 'Manga'},
+    	aliases: [String],
+    	genres: [String],
+    	year: Number,
+    	status: String,
+    	chapter_count: { type: Number, default: 0},
+    	volume_count: { type: Number, default: 0},
+    	average_rating: { type: Number, default: null},
+    	user_ratings: [ {type: Schema.Types.ObjectId, ref: 'Manga_Library_Entry'}],
+    	synopsis: String,
+    	created_at: {type: Date},
+    	updated_at: {type: Date}
 	});
 		Description: This is the information about the manga.
 
@@ -133,31 +165,21 @@ Modules/Things to Look Into
 		- I have experience with Ruby on Rails, so I prefer this layout.
 
 	(1 point) Use a CSS framework throughout your site, use a reasonable of customization of the framework
-		- CSS frameworks make setting up styling a lot easier.
+		- I used Foundation
 		- I can use preset styling to make grids and format overall page design. Also buttons and forms can be easily stylized using frameworks
-		- I will probably use Foundation for this.
 
 
 	(3 points) Integrate user authentication
+		- Used passport to implement local strategy
 
 	(2 points) Perform client side form validation
 
-	(2 points) Unit testing with Javascript
-		- The testing of individual units of code in the web app, checking for correctness.
-		- This makes it easier to find bugs when changing code or adding functionalities
-		- Possible modules: Jasmine or Mocha
 
 	(2 points) * Use an api from a popular anime db website, such as MAL or Hummingbird to extract anime descriptions
 		- This is an api to retrieve information anime, such as: a description, running days, aliases, etc...
 		- This makes it easier and more convenient to maintain an accurate list of anime with good descriptions. It's a lot better than hardcoding the details.
 		- If I use the MyAnimeList API, I will use http://myanimelist.net/modules.php?go=api
 		- If I use the Hummingbird API, I will use https://github.com/hummingbird-me/hummingbird/wiki/API-v1-Methods
-
-	(1 point) * Set up a cron job to retrieve data from api on a timed basis
-		- A time based job (probably every day or so) that updates and adds anime/manga entries to the database
-		- This lets the list of anime to be maintained automatically, instead of a manual search being needed
-		- Possible modules: [node-schedule](https://www.npmjs.com/package/node-schedule)
-							[node-cron](https://github.com/ncb000gt/node-cron)
 
 	(1 point) * Paginate the reviews and the all anime and manga lists
 		- This splits the total number of items loaded per page. So, I can set it to 5 reviews appearing per page or 10 and a page selector can be at the bottom of each page

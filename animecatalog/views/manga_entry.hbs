@@ -1,16 +1,119 @@
-<h1> {{ manga.title }} </h1>
-<div> 
-	<img src="{{ manga.image_url}}" > <br>
-	Type: {{ manga.type }} <br> 
-	Aliases: {{ manga.aliases}} <br>
-	Genres: {{ manga.genres }} <br>
-	Finished airing: {{ manga.finished_airing }} <br>
-	Tags: {{ manga.tags }} <br>
-	Status: {{ manga.status }} <br>
-	Chapters: {{ manga.chapter_count }} <br>
-	Volumes: {{ manga.volume_count }} <br>
+<div class="row callout entry-info secondary">
+    <div class="small-6 columns"> 
+	  <img class="poster-image" src="{{ manga.image_url}}" >
+    <div class="description"> <b>{{ manga.title }}</b>
+        <ul class="no-bullets"> 
+            <li> Type: {{ manga.type }} </li>
+            <li> Aliases: {{ manga.aliases}} </li>
+            <li> Genres: <div class="inline genres royal-purple"> {{ manga.genres }} </div> </li>
+            <li> Status: {{ manga.status }} </li>
+            <li> Chapters: {{ manga.chapter_count }} </li>
+            <li> Volumes: {{ manga.volume_count }} </li>
+            <li> Hummingbird Rating: {{manga.hummingbird_rating}} </li>
+            <li> Average Rating: <span id="average_rating">{{ manga.average_rating }}</span> </li>
+        </ul>
+    </div>
+	  <div class="synopsis"> Synopsis: <br> {{ manga.synopsis }} </div>
+
+    </div>
+    <div class="small-4 columns">
+        {{#if user_rating }}
+            <form name="manga_library_entry_form" action="/manga_library_entry/update" method="post">
+                <input type="hidden" name="manga_id" value="{{ manga._id }}">
+                <input type="hidden" name="chapter_count" value="{{ manga.chapter_count }}">
+                <input type="hidden" name="user" value="{{ user.username }}">
+                <input type="hidden" name="action" value="update">
+                <div class="">
+                    <label for="rating">Rating</label>
+                    <input type="text" name="rating" id="rating" placeholder="Out of 5" value="{{user_rating.rating}}">
+                </div>
+                <div class="">
+                    <label class="inline">Your Progress</label>
+                    <select name="status">
+                        <option value="{{user_rating.status}}" selected>{{user_rating.status}}</option>
+                        <option value="Plan to watch">Plan to Watch</option>
+                        <option value="Watching">Watching</option>
+                        <option value="Completed">Completed</option>
+                        <option value="On-hold">On-hold</option>
+                        <option value="Dropped">Dropped</option>
+                    </select>
+                </div>
+                <div class="">
+                   <label>Chapters</label>
+                   <input type="text" name="chapters_read" value="{{user_rating.chapters_read}}">
+                </div>
+                <div class="">
+                   <label>Date Started</label>
+                   <input type="date" name="date_started" value="{{user_rating.date_started}}">
+                </div>
+                <div class="">
+                   <label>Date Finished</label>
+                   <input type="date" name="date_finished" value="{{user_rating.date_finished}}">
+                </div>
+                <div class="">
+                    <label>Your Review</label>
+                    <textarea rows="10" class="50" name="review" placeholder="Write a review"">{{user_rating.review.text}}</textarea>
+                </div>
+
+                <input class="button" type="submit" value="Update your entry">
+                <div id="msg"></div>
+            </form>
+        {{else}}
+            <form name="manga_library_entry_form" action="/manga_library_entry/create" method="post">
+                <input type="hidden" name="manga_id" value="{{ manga._id }}">
+                <input type="hidden" name="chapter_count" value="{{ manga.chapter_count }}">
+                <input type="hidden" name="user" value="{{ user.username }}">
+                <input type="hidden" name="action" value="create">
+                <div class="row">
+                    <label for="rating">Rating</label>
+                    <input type="text" name="rating" id="rating" placeholder="Out of 5">
+                </div>
+                <div class="row">
+                   <label class="inline">Your Progress</label>
+                   <select name="status">
+                       <option value="Plan to watch" selected>Plan to Watch</option>
+                       <option value="Watching">Watching</option>
+                       <option value="Completed">Completed</option>
+                       <option value="On-hold">On-hold</option>
+                       <option value="Dropped">Dropped</option>
+                  </select>
+                </div>
+                <div class="row">
+                   <label>Chapters</label>
+                   <input type="number" name="chapters_read">
+                </div>
+                <div class="row">
+                   <label>Date Started</label>
+                   <input type="date" name="date_started">
+                </div>
+                <div class="row">
+                   <label>Date Finished</label>
+                   <input type="date" name="date_finished">
+                </div>
+                <div class="row">
+                    <label>Your Review</label>
+                    <textarea rows="10" class="50" name="review"></textarea>
+                </div>
+
+                <input class="button" type="submit" value="Add to Library">
+                <div id="msg"></div>
+            </form>
+
+        {{/if}}
+    </div>
 </div>
-<div>
-	Rating: {{ manga.average_rating }}
-	Synopsis: {{ manga.synopsis }}
+
+<div class="row user-reviews">
+    <div class="title"> User Reviews </div>
+    <div class="row small-up-1 medium-up-2 large-up-3">
+        {{#each reviews}}
+            <div class="column review callout">
+                <div> <a href="/u/{{this.user_slug}}"> {{ this.user_name }} </a> </div>
+                <div id="reviewrating-{{this.user_name}}"> Rating: {{ this.rating }} </div>
+                <div id="reviewtext-{{this.user_name}}" class="font-12 callout secondary"> {{ this.review.text }} </div>
+            </div>
+        {{else}}
+            There are no reviews yet!
+        {{/each}}
+    </div>
 </div>

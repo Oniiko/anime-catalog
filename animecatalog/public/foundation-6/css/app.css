@@ -1,0 +1,148 @@
+/** Fontsizes **/
+.font-12 {
+	font-size: 12px;
+}
+
+.font-18 {
+	font-size: 18px;
+}
+
+a {
+	color: #7851A9;
+}
+
+a:hover {
+	color: 	#707070;
+}
+
+.royal-purple {
+	color: #7851A9;
+}
+
+.username {
+	color: #ffffff;
+	font-weight: bold;
+}
+/** Text formatting **/
+.word-wrap {
+	word-wrap: break-word;
+}
+
+.inline {
+	display: inline-block;
+}
+
+body {
+}
+
+/** List **/
+.no-bullets {
+	list-style-type: none;
+	padding:0; 
+	margin:0;
+}
+
+.top-bar {
+	background-color: #7851A9;
+	margin-bottom: 30px;
+}
+
+.top-bar ul {
+	background-color: #7851A9;
+}
+
+.top-bar a {
+	color: #ffffff;	
+}
+
+.logo {
+	font-size: 24px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.highlight-header {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.lowlight-header {
+	font-size: 16px;
+	font-weight: normal;
+	color: #CCCCCC;
+}
+
+.button {
+	background-color: #7851A9;
+}
+
+.button:hover, .button:focus {
+    background: #A0A0A0;
+    color: #fff; 
+}
+
+
+/* Anime/Manga Entry Pages */
+.poster-image {
+	width: 219.317px;
+	height: 317.783px;
+	float:left;
+}
+
+.entry-info {
+	width: 70%;
+    margin: 0 auto;
+}
+
+.description {
+	margin-left: 250px;
+}
+
+.synopsis {
+	margin-top: 20px;
+	float:left;
+}
+
+/* Entry Listing */
+.title {
+	text-align: center;
+	font-size: 30px;
+	margin-bottom: 30px;
+}
+.poster-thumbnail {
+	width: 109.658px;
+	height: 158.891px;
+	float: left;
+	margin-right: 10px;
+}
+
+.entry-list-item {
+}
+
+.user-reviews {
+	margin-top: 50px;
+	width: 80%;
+}
+
+.review {
+	width: 40%;
+	margin-right: 10px;
+}
+
+.no-reviews {
+	width: 50%; 
+	margin: 0 auto;
+}
+
+/* Show ratings */
+.rating-form {
+	font-size: 14px;
+	margin: 20px;
+	width: 50%;
+}
+
+/* User Profile Page */
+.profile-table-center {
+	width: 80%; 
+	margin: 0 auto;
+}

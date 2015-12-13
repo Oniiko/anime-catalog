@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-  	{{#if user}}
-		<div>You're currently logged in as: <a href=/users/{{user.username}}>{{user.username}}</a></div>
-	{{else}}
-		<a href="/login">login</a> or 
-		<a href="/signup">signup</a>
-	{{/if}}
-    {{{body}}}
-  </body>
+    <link rel="stylesheet" href="/foundation-6/css/foundation.css" />
+    <link rel="stylesheet" href="/foundation-6/css/app.css" />
+</head>
+<body>
+<div class="top-bar">
+  <div class="top-bar-left">
+    <ul class="dropdown menu" data-dropdown-menu>
+      <li class="logo">Catalog:</li>
+      <li><a href="/anime"><span id="anime-header" class="highlight-header">Anime</span></a></li>
+      <li><a href="/manga"><span id="manga-header" class="lowlight-header">Manga</span></a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="dropdown menu" data-dropdown-menu>
+        {{#if user}}
+        <li class="username">{{user.username}}</li>
+        <li><a href="/u/{{user.slug}}">Your profile</a></li>
+        <li><a href="/u/logout">Logout</a></li>
+        {{else}}
+        <li><a href="/u/login">Login</a></li>
+        <li><a href="/u/signup">Signup</a></li>
+        {{/if}}
+    </ul>
+  </div>
+</div>
+{{{body}}}
+    
+    <script src="/foundation-6/js/vendor/jquery.min.js"></script>
+    <script src="/foundation-6/js/vendor/what-input.min.js"></script>
+    <script src="/foundation-6/js/foundation.min.js"></script>
+    <script src="/foundation-6/js/app.js"></script>
+
+</body>
 </html>

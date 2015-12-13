@@ -1,0 +1,64 @@
+<div class="profile-table-center">
+	<ul class="tabs" data-tabs id="anime-manga-tabs">
+  		<li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Anime</a></li>
+  		<li class="tabs-title"><a href="#panel2">Manga</a></li>
+	</ul>
+	<div class="tabs-content" data-tabs-content="anime-manga-tabs">
+  		<div class="tabs-panel is-active" id="panel1">
+			<table class="hover">
+  				<thead>
+    				<tr>
+      					<th width="200">Title</th>
+					      	<th width="150">Rating</th>
+					      	<th width="150">Status</th>
+					      	<th width="150">Read/Watched</th>
+					      	<th width="150">Date Started</th>
+					      	<th width="150">Date Finished</th>
+					      	<th width="200">Review</th>
+   					</tr>
+  				</thead>
+  				<tbody>
+  					{{#each anime_library}}
+    					<tr>
+      						<td><a href="/anime/{{this.anime_info.slug}}" > {{this.anime_info.title}} </a></td>
+      						<td> {{this.rating}}</td>
+      						<td> {{this.status}}</td>
+      						<td> {{this.episodes_seen}} </td>
+      						<td> {{this.date_started}} </td>
+      						<td> {{this.date_finished}} </td>
+      						<td> {{this.review.text}} </td>
+    					</tr>
+    				{{/each}}
+  				</tbody>
+			</table>
+		</div>
+  		<div class="tabs-panel" id="panel2">
+			<table class="hover">
+  				<thead>
+    				<tr>
+      					<th width="200">Title</th>
+				      	<th width="150">Rating</th>
+				      	<th width="150">Status</th>
+				      	<th width="150">Read/Watched</th>
+				      	<th width="150">Date Started</th>
+				      	<th width="150">Date Finished</th>
+				      	<th width="200">Review</th>
+    				</tr>
+  				</thead>
+			  	<tbody>
+			  		{{#each manga_library}}
+			    		<tr>
+			      			<td><a href="/manga/{{this.manga_info.slug}}" > {{this.manga_info.title}} </a></td>
+			      			<td> {{this.rating}}</td>
+			      			<td> {{this.status}}</td>
+			      			<td> {{this.chapters_read}} </td>
+			      			<td> {{this.date_started}} </td>
+			      			<td> {{this.date_finished}} </td>
+			      			<td> {{this.review.text}} </td>
+			    		</tr>
+			    	{{/each}}
+			  	</tbody>
+			</table>
+  		</div>
+	</div>
+</div>

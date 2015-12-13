@@ -25,13 +25,13 @@ app.set('view engine', 'hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser('secret'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser('secret'));
 
 var sessionOptions = {
     secret: 'remember to store this else where',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
 };
 
 app.use(session(sessionOptions));
@@ -40,9 +40,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+//Makes user available on all pages
+app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
+var paginate = require('express-paginate');
+app.use(paginate.middleware(10, 50));
 // routes
 app.use('/', routes);
-app.use('/', users);
+app.use('/u', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

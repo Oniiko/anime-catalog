@@ -1,14 +1,15 @@
 var request = require('request');
+var async = require('async');
 var Anime = require('../models/anime').Anime;
 var Manga = require('../models/manga').Manga;
 
 //Using request module, sends request to api endpoint and processes body
-var api_request = function(url, type) {
+var api_request = function(url, type, id) {
 	request(url, function (error, response, body) {
   		if (!error && response.statusCode == 200) {
   			var data = body;
     		//console.log(data);
-    		process_data(data, type);
+    		process_data(data, type, id);
   		}
   		else {
   			console.log(error);
@@ -25,32 +26,49 @@ var genre_formatter = function(genres) {
 	return output;
 }
 
+//Averages community ratings for manga
+var community_ratings_average = function(ratings) {
+	if (ratings != null && ratings.length > 0) {
+		var output = 0; //Average ratings
+		for(var i = 0; i < ratings.length; i++) {
+			output += ratings[0];
+		}
+		output = output/ratings.length;
+		output = Math.round(output * 100) / 100;
+		return output;
+	}
+	else {
+		return null;
+	}
+}
+
 //Creates the document using data from api
-var process_data = function(data, type) {
+var process_data = function(data, type, id) {
 	var data_ob = JSON.parse(data);
-	console.log(data_ob);
+	//console.log(data_ob);
 	if (type == 'anime') {
 		var new_anime = new Anime({
 			//id: ObjectId,
     		title: data_ob.title,
+    		hummingbird_id: data_ob.id,
+    		hummingbird_rating: (Math.round(data_ob.community_rating * 100) / 100),
     		image_url: data_ob.cover_image,
-    		type: data_ob.anime_type,
+    		type: data_ob.show_type,
     		aliases: data_ob.alternate_title,
     		genres: genre_formatter(data_ob.genres),
     		started_airing: data_ob.started_airing,
     		finished_airing: data_ob.finished_airing,
-    		tags: [],
     		status: data_ob.status,
     		episodes: data_ob.episode_count,
     		episode_length: data_ob.episode_length,
-    		average_rating: null,
     		user_ratings: [],
     		synopsis: data_ob.synopsis,
     		//created_at: {type: Date},
     		//updated_at: {type: Date}
 		});
-		new_anime.save(function(){
-			console.log(new_anime);
+		new_anime.save(function(error){
+			console.log("hummingbird_id = " + new_anime.hummingbird_id);
+			//console.log(new_anime);
 		});
 	}
 	else if (type == 'manga') {
@@ -64,16 +82,16 @@ var process_data = function(data, type) {
 		var new_manga = new Manga({
     		//id: ObjectId,
     		title: data_ob.romaji_title,
+    		hummingbird_id: id,
+    		hummingbird_rating: community_ratings_average(data_ob.community_ratings),
     		image_url: data_ob.poster_image,
     		type: data_ob.manga_type,
     		aliases: manga_aliases,
     		genres: data_ob.genres,
     		//year: Number,
-    		tags: [],
     		//status: data_ob.status,
     		chapter_count: data_ob.chapter_count,
     		volume_count: data_ob.volume_count,
-    		average_rating: null,
     		user_ratings: [],
     		synopsis: data_ob.synopsis,
     		//created_at: {type: Date},
@@ -88,19 +106,41 @@ var process_data = function(data, type) {
 	}
 
 }
-
+// Defined outside of driver because of errors with the forloop (It returned one anime i number of times)
+var db_fetch = function(param, url, type, id){
+	if(type == 'anime') {
+		Anime.findOne(param, function(err, anime, count) {
+			if(anime == null) {
+				api_request(url, 'anime');
+			}
+		});
+	}
+	else if (type == 'manga') {
+		Manga.findOne(param, function(err, manga, count) {
+			if(manga == null) {
+				api_request(url, 'manga', id);
+			}
+		});
+	}
+	else {
+		console.log("Error: Must specify type");
+	}
+}
 //Executes api_request() for the set number of anime/manga
 var driver = function() {
-	for(var i = 1; i <= 3; i++) {
-		var url = "http://hummingbird.me/api/v1/anime/";
-		url += i;
-		api_request(url, 'anime');
+	//Get as many as possible
+	for(var i = 1; i <= 100; i++) {
+		var id = i;
+		var url = "http://hummingbird.me/api/v1/anime/" + id;
+		var param = {hummingbird_id: id};
+		db_fetch(param, url, 'anime');
 	}
-
-	for(var i = 1; i <= 3; i++) {
-		var url = "http://hummingbird.me/full_manga/";
-		url += i;
-		api_request(url, 'manga');
+	
+	for(var i = 1; i <= 100; i++) {
+		var id = i;
+		var url = "http://hummingbird.me/full_manga/" + id;
+		var param = {hummingbird_id: id};
+		db_fetch(param, url, 'manga', id);
 	}
 }
 
