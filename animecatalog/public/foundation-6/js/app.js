@@ -11,6 +11,12 @@ $(document).ready(function(){
 
   	highlightCategory();
 
+  $("#search-button").click(function(){     
+    var search_word = $("#search-word").val();
+    console.log("search word = " + search_word);
+    window.location.replace("/search?word="+search_word);
+  });
+
 	$("form[name=signup_form]").submit(function(e){     
 		e.stopImmediatePropagation();
         var form = $(this);

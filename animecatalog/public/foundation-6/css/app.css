@@ -146,3 +146,8 @@ body {
 	width: 80%; 
 	margin: 0 auto;
 }
+
+.search-results {
+	width: 50%;
+	margin: 0 auto;
+}

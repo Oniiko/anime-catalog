@@ -103,7 +103,7 @@ router.get('/anime/:slug', function(req, res, next) {
             }               
         }, 
         function(err, result){
-            console.log(result.reviews);
+            //console.log(result.reviews);
             res.render('anime_entry', { anime: anime, user_rating: result.my_user_rating, reviews: result.reviews });
         });
     });
@@ -112,7 +112,7 @@ router.get('/anime/:slug', function(req, res, next) {
 
 
 router.post('/anime_library_entry/create', function(req, res, next) {
-    console.log(req.user);
+    //console.log(req.user);
     var errmsg = validateAnimeEntryForm(req.body, req.user.username);
     if (errmsg != null) {
         //res.json({errmsg: errmsg});
@@ -225,6 +225,27 @@ router.post('/manga_library_entry/update', function(req, res, next) {
     });
 });
 
+router.get('/search', function(req, res, next) {
+    async.parallel({
+        anime: function(callback){
+            Anime.find({title: new RegExp(req.query.word, "i")}, function(err, anime, count) {
+                callback(err, anime);
+            });
+        },
+        manga: function(callback){
+            Manga.find({title: new RegExp(req.query.word, "i")}, function(err, manga, count) {
+                callback(err, manga);
+            });
+        }               
+    }, 
+    function(err, result){
+        var noResults = false;
+        
+        if ( "" + result.anime + result.manga == "") noResults = true;
+        res.render('search_results', { anime: result.anime, manga: result.manga, noResults: noResults });
+    });
+});
+
 /** Helper Functions **/
 
 //Remember to refactor this and anime entry form together
@@ -319,7 +340,7 @@ function save_manga_library_entry (req, res, manga_info) {
         chapters_read: req.body.chapters_read
     });
     new_lib_entry.save(function(err){
-        console.log(new_lib_entry);
+        //console.log(new_lib_entry);
         if (err) {
             console.log('error ' + err);
         }
@@ -345,8 +366,8 @@ function validateAnimeEntryForm(reqbody, requser) {
     if (user == null || user == "") {
         return "You have to be logged in to add to library";
     }
-    console.log("user = " + user);
-    console.log("requser = " + requser);
+    //console.log("user = " + user);
+    //console.log("requser = " + requser);
     if (user != requser) {
         return "Not authorized to make change";
     }
@@ -434,7 +455,7 @@ function save_anime_library_entry (req, res, anime_info) {
         episodes_seen: req.body.episodes_seen
     });
     new_lib_entry.save(function(err){
-        console.log(new_lib_entry);
+        //console.log(new_lib_entry);
         if (err) {
             console.log('error ' + err);
         }

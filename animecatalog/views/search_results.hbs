@@ -1,0 +1,34 @@
+<div class="search-results">
+    <div> <h3> Search Results </h3> </div>
+    <table class="hover">
+  			<thead>
+    			  <tr>
+      				  <th width="200">Type</th>
+					      <th width="400">Result</th>
+   				</tr>
+  			</thead>
+  			<tbody>
+  					{{#each anime}}
+    					  <tr>
+                    <td> Anime </td>
+      						  <td> <a href="/anime/{{this.slug}}"> {{this.title}} </a> </td>
+    					  </tr>
+    				{{/each}}
+
+            {{#each manga}}
+                <tr>
+                    <td> Manga </td>
+                    <td> <a href="/manga/{{this.slug}}"> {{this.title}} </a> </td>
+                </tr>
+            {{/each}}
+
+            {{#if noResults}}
+                <tr>
+                    <td>
+                        There are no results. Try searching something else.
+                    </td>
+                </tr>
+            {{/if}}
+  			</tbody>
+		</table>
+</div>
