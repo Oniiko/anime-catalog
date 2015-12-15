@@ -129,14 +129,14 @@ var db_fetch = function(param, url, type, id){
 //Executes api_request() for the set number of anime/manga
 var driver = function() {
 	//Get as many as possible
-	for(var i = 1; i <= 100; i++) {
+	for(var i = 1; i <= 1000; i++) {
 		var id = i;
 		var url = "http://hummingbird.me/api/v1/anime/" + id;
 		var param = {hummingbird_id: id};
 		db_fetch(param, url, 'anime');
 	}
 	
-	for(var i = 1; i <= 100; i++) {
+	for(var i = 1; i <= 1000; i++) {
 		var id = i;
 		var url = "http://hummingbird.me/full_manga/" + id;
 		var param = {hummingbird_id: id};

@@ -8,6 +8,8 @@ var Manga = require('../models/manga').Manga;
 var User = require('../models/user').User;
 var Anime_Library_Entry = require('../models/anime_library_entry').Anime_Library_Entry;
 var Manga_Library_Entry = require('../models/manga_library_entry').Manga_Library_Entry;
+var Rating_Data = require('../models/user_rating').Rating_Data;
+var User_Rating = require('../models/user_rating').User_Rating;
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/anidb');
@@ -16,14 +18,27 @@ mongoose.connect('mongodb://localhost/anidb');
 //api_wrapper.driver();
 //var user_data = require('../api_wrapper/get_user_data');
 //user_data.driver();
-//var collaborative_filtering = require('../recommender/collaborative_filtering');
+var cf = require('../recommender/collaborative_filtering');
 
 router.get('/', function(req, res, next) {
   	res.redirect('/anime');
 });
 
-/**
+
 router.get('/recommendations', function(req, res, next) {
+    var query = req.query;
+    var n = 5;
+    if (query["n"] != null) n = query["n"];
+    var sim_func = 2;
+    if (query["sim_func"] != null) sim_func = query["sim_func"];
+
+    if (query["user"] != null) {
+        cf.driver(query["user"], n, sim_func, res);
+    }
+    else {
+        res.render('recommendations', { title: 'Recommendations', error: "Error: Username can't be empty"});
+    }
+    /**
     var query = req.query;
     if (query["user"] != null) {
         collaborative_filtering.getRatingData(function(data) { 
@@ -46,37 +61,10 @@ router.get('/recommendations', function(req, res, next) {
     else {
         res.render('recommendations', { title: 'Recommendations'});
     }
-    
+    **/
 });
-**/
 
 router.get('/anime', function(req, res, next) {
-    //if (typeof Anime.paginate === "function") console.log("Anime.paginate is existed");
-    //else console.log("Anime.paginate is not existed");
-	/**Anime.paginate({}, {page: req.query.page, limit: req.query.limit}, function(err, anime, pageCount, count) {
-        console.log("called into Anime.paginate");
-		//res.render('index', {'list': anime, title: 'Anime', type: 'anime' });
-        if (err) return next(err);
-
-        res.format({
-            html: function() {
-                res.render('users', {
-                    users: users,
-                    pageCount: pageCount,
-                    itemCount: count,
-                    pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)
-                });
-            },
-            json: function() {
-                res.json({
-                    object: 'list',
-                    has_more: paginate.hasNextPages(req)(pageCount),
-                    data: anime
-                });
-            }
-        });
-	});
-    **/
     Anime.find({}).sort({hummingbird_rating: 'desc'}).exec(function(err, anime, count) {
         res.render('index', {'list': anime, title: 'Anime', type: 'anime' });
     });
