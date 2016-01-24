@@ -1,5 +1,5 @@
-<div class="row">
-	<div class="small-6 centered">
+<div class="center">
+	<div class="">
 		<form method="get">
 			<div> Username: <input name="user" value="{{ username }}"> </div>
 			<div> Number of Results: <input name="n" value="{{ n }}"> </div>
@@ -12,18 +12,47 @@
 		</form>
 	</div>
 </div>
-<div>
-	Top User Matches:
-	<ol>
-		{{#each matches}}
-			<li> {{ this.username }} ({{ this.score }}) </a> </li>
-		{{/each}}
-	</ol>
-	<br>
-	Recommended Anime List:
-	<ol>
-		{{#each recomms}}
-			<li> {{ this.anime }} ({{ this.score }})  </a> </li>
-		{{/each}}
-	</ol>
+<div class="center">
+	<ul class="tabs" data-tabs id="anime-user-tabs">
+  		<li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Animes Recommendations</a></li>
+  		<li class="tabs-title"><a href="#panel2">Similar Users</a></li>
+	</ul>
+	<div class="tabs-content" data-tabs-content="anime-user-tabs">
+  		<div class="tabs-panel is-active" id="panel1">
+			<table class="hover">
+  				<thead>
+    				<tr>
+      					<th width="200">Title</th>
+					    <th width="200">Predicted Score</th>
+   					</tr>
+  				</thead>
+  				<tbody>
+  					{{#each recomms}}
+    					<tr>
+      						<td><a href="https://hummingbird.me/anime/{{this.slug}}" > {{this.anime}} </a></td>
+      						<td> {{this.score}}</td>
+    					</tr>
+    				{{/each}}
+  				</tbody>
+			</table>
+		</div>
+  		<div class="tabs-panel" id="panel2">
+			<table class="hover">
+  				<thead>
+    				<tr>
+      					<th width="200">Username</th>
+				      	<th width="50">Similarity Score</th>
+    				</tr>
+  				</thead>
+			  	<tbody>
+			  		{{#each matches}}
+			    		<tr>
+			      			<td><a href="https://hummingbird.me/users/{{this.username}}" > {{this.username}} </a></td>
+			      			<td> {{this.score}}</td>
+			    		</tr>
+			    	{{/each}}
+			  	</tbody>
+			</table>
+  		</div>
+	</div>
 </div>

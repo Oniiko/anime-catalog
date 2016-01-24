@@ -27,41 +27,31 @@ router.get('/', function(req, res, next) {
 
 router.get('/recommendations', function(req, res, next) {
     var query = req.query;
-    var n = 5;
-    if (query["n"] != null) n = query["n"];
-    var sim_func = 2;
-    if (query["sim_func"] != null) sim_func = query["sim_func"];
-
     if (query["user"] != null) {
-        cf.driver(query["user"], n, sim_func, res);
+        cf.getRatingData(function(data) {
+            var n = 5;
+            if (query["n"] != null && query["n"] !="") n = query["n"];
+            user = query["user"];
+            var sim_func = 2;
+            if (query["sim_func"] != null) sim_func = query["sim_func"]; 
+            cf.findUser(query["user"], res, function(user) {
+                //console.log("User: " + user);
+                if (sim_func == 1) {
+                    var matches = cf.top_matches(data, user, query["user"], n, cf.distance_similarity);
+                    var recomms = cf.recommend(data, user, query["user"], n, cf.distance_similarity);
+                    res.render('recommendations', { title: 'Recommendations', username:  query["user"], n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
+                } 
+                else {
+                    var matches = cf.top_matches(data, user, query["user"], n, cf.pearson_similarity);
+                    var recomms = cf.recommend(data, user, query["user"], n, cf.pearson_similarity);
+                    res.render('recommendations', { title: 'Recommendations', username:  query["user"], n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
+                }
+            });
+        });
     }
     else {
         res.render('recommendations', { title: 'Recommendations', error: "Error: Username can't be empty"});
     }
-    /**
-    var query = req.query;
-    if (query["user"] != null) {
-        collaborative_filtering.getRatingData(function(data) { 
-            var n = 5;
-            if (query["n"] != null) n = query["n"];
-            user = query["user"];
-            var sim_func = 2;
-            if (query["sim_func"] != null) sim_func = query["sim_func"];
-            if (sim_func == 1) {
-                var matches = collaborative_filtering.top_matches(data, user, n, collaborative_filtering.distance_similarity);
-                var recomms = collaborative_filtering.recommend(data, user, n, collaborative_filtering.distance_similarity);
-                res.render('recommendations', { title: 'Recommendations', username:  user, n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
-            } else {
-                var matches = collaborative_filtering.top_matches(data, user, n, collaborative_filtering.pearson_similarity);
-                var recomms = collaborative_filtering.recommend(data, user, n, collaborative_filtering.pearson_similarity);
-                res.render('recommendations', { title: 'Recommendations', username:  user, n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
-            }
-        });
-    }
-    else {
-        res.render('recommendations', { title: 'Recommendations'});
-    }
-    **/
 });
 
 router.get('/anime', function(req, res, next) {

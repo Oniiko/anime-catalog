@@ -2989,7 +2989,7 @@ table.hover tr:nth-of-type(even):hover {
   .tabs.primary {
     background: #2199e8; }
     .tabs.primary > li > a {
-      color: #fefefe; }
+      color: #7851A9; }
       .tabs.primary > li > a:hover, .tabs.primary > li > a:focus {
         background: #1893e4; }
 
@@ -3000,7 +3000,7 @@ table.hover tr:nth-of-type(even):hover {
     padding: 1.25rem 1.5rem;
     line-height: 1;
     font-size: 12px;
-    color: #2199e8; }
+    color: #7851A9; }
     .tabs-title > a:hover, .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
       background: #e6e6e6; }
 

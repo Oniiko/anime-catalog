@@ -10,7 +10,6 @@ function getRatingData(callback) {
   		RatingData = {};
   		for (var i = 0; i < data.length; i++) {
   			var per_user = data[i];
-  			//var user = {username: per_user.username};
   			var anime = {};
   			for (var j = 0; j < per_user.data.length; j++)
   			{
@@ -26,9 +25,7 @@ function getRatingData(callback) {
 
 function distance_similarity(userdata, user1, user2) {
     var ratings1 = userdata[user1];
-    //console.log(ratings1);
     var ratings2 = user2;
-    //console.log(ratings2);
     var sum = 0.0;
     for (var title in ratings1) {
     	if (ratings2[title] != null) {
@@ -68,15 +65,13 @@ function pearson_similarity(userdata, user1, user2) {
  	});
   var sumtimes = (sum1 * sum2)/n;
   var num = sum12 - (sum1 * sum2 / n);
-  //console.log("Num: " + num);
   var den = Math.sqrt((sum1Square - sum1*sum1/n) * (sum2Square - sum2*sum2/n));
-  //console.log("Den :" + den);
   if (den == 0.0 ) return 0.0;
   return num/den;
 }
 
 function top_matches(userdata, user, username, n, sim_function) {
-	if (n == null) n = 5;
+	if (n == null || n == "" || n == 0) n = 5;
 	if (sim_function == null) sim_function = pearson_similarity;
 	var scores = [];
 	for (var myuser in userdata) {
@@ -84,20 +79,16 @@ function top_matches(userdata, user, username, n, sim_function) {
 		var score = sim_function(userdata, myuser, user);
 		scores.push({username: myuser, score: Math.round(score*100)/100});
 	}
-  //console.log("Scores: " + scores);
 	scores.sort(function(user1, user2) {return user2.score - user1.score;});
-  //console.log("Sorted scores: " + scores);
-  //scores = sc;
-  for (var i = 0; i < scores.length; i++) {
-    console.log(scores[i].username + " : " + scores[i].score);
+  var ret = [];
+  for (var i = 0; i < scores.length &&  i < n; i++) {
+    ret.push(scores[i]);
   }
-
-	return scores.slice(0, n);
-
+  return ret;
 }
 
 function recommend(userdata, user, username, n, sim_function) {
-	if (n == null) n = 5;
+	if (n == null || n == "" || n == 0) n = 5;
 	if (sim_function == null) sim_function = pearson_similarity;
 	var totals = {};
   //console.log(user);
@@ -120,11 +111,13 @@ function recommend(userdata, user, username, n, sim_function) {
 		rankings.push({anime: anime, score: Math.round(totals[anime]/scoreSums[anime]*100)/100});
 	}
 	rankings.sort(function(anime1, anime2) {return anime2.score - anime1.score;});
-  rankings = JSON.stringify(rankings.slice(0, n));
+  rankings.map(function(anime) {
+      anime.slug = anime.anime.toLowerCase().replace(/\s+/g, '-');
+  });
 	return rankings.slice(0, n);
 }
 
-function process_user(user, username, n, sim_func, res) {
+function process_user(user, res) {
   var data_ob = JSON.parse(user);
   var rating_data = [];
   var user = {};
@@ -134,30 +127,17 @@ function process_user(user, username, n, sim_func, res) {
       user[title] = Number(data_ob[i].rating.value);
     }
   }
-
-  getRatingData(function(ratingData) {
-    if (sim_func == 1) {
-        var matches = top_matches(ratingData, user, username, n, distance_similarity);
-        var recomms = recommend(ratingData, user, username, n, distance_similarity);
-        res.render('recommendations', { title: 'Recommendations', username:  user.username, n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
-    } 
-    else {
-        var matches = top_matches(ratingData, user, username, n, pearson_similarity);
-        var recomms = recommend(ratingData, user, username, n, pearson_similarity);
-        console.log("Matches: " + matches);
-        console.log("Recommends: " + recomms);
-        res.render('recommendations', { title: 'Recommendations', username:  user.username, n: n, sim_func: sim_func, matches: matches,  recomms: recomms});
-    }
-  });
+  return user;
 }
 
-function driver(username, n, sim_func, res) {
+function findUser(username, res, callback) {
   var url = 'http://hummingbird.me/api/v1/users/' + username + '/library';
   request(url, function (error, response, body) {
     //console.log("Status Code: " + response.statusCode);
     if (!error && response.statusCode == 200) {
       var user = body;
-      process_user(user, username, n, sim_func, res);
+      user = process_user(user);
+      callback(user);
     }
     else if (response.statusCode == 404) {
       var error_message = "Error: " + username +" not found on Hummingbird"
@@ -171,5 +151,8 @@ function driver(username, n, sim_func, res) {
 }
 
 module.exports = {
-  driver: driver
+  getRatingData: getRatingData,
+  top_matches: top_matches,
+  recommend: recommend,
+  findUser: findUser
 }

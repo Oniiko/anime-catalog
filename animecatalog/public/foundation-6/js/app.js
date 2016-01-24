@@ -9,8 +9,6 @@ $(document).ready(function(){
     	  this.textContent = this.textContent.substring(0, 199) + "...";
 	});
 
-  	highlightCategory();
-
   $("#search-button").click(function(){     
     var search_word = $("#search-word").val();
     console.log("search word = " + search_word);
